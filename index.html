@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir UP TJKT - Cloud POS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <h2>🔒 Login Kasir UP-TJKT</h2>
+            <p>Silakan isi nama petugas dan password</p>
+            <form onsubmit="prosesLogin(event)">
+                <input type="text" id="input-nama-petugas" placeholder="Nama Petugas" required>
+                <input type="password" id="input-password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Login Kasir</button>
+            </form>
+            <div style="margin-top: 15px; font-size: 13px;">
+                <a href="admin/index.html" style="color: #38bdf8; text-decoration: none;">👉 Masuk Halaman Admin Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="app-container" style="display: none;">
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">💻</div>
+                <h1>Kasir UP TJKT</h1>
+            </div>
+            <div class="user-info">
+                <span id="label-petugas">Petugas: -</span>
+                <button onclick="logout()" class="btn-logout">Logout</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="products-section">
+                <h2>Daftar Produk</h2>
+                
+                <div class="filter-container">
+                    <input type="text" id="search-input" placeholder="🔍 Cari nama barang..." oninput="filterProduk()">
+<select id="category-select" onchange="filterProduk()">
+    <option value="Semua">Semua Kategori</option>
+    <option value="Komputer">Komputer</option>
+    <option value="Alat Tulis">Alat Tulis</option>
+    <option value="Kertas & Perlengkapan">Kertas & Perlengkapan</option>
+    <option value="Jasa Cetak">Jasa Cetak</option>
+</select>
+                </div>
+
+                <div class="product-grid" id="product-grid"></div>
+            </section>
+
+            <section class="cart-section">
+                <h2>Keranjang Belanja</h2>
+                <div class="cart-list" id="cart-list"></div>
+                
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Total Bayar</span>
+                        <span id="total-harga">Rp 0</span>
+                    </div>
+
+                    <div style="margin: 15px 0;">
+                        <label style="font-size: 13px; color: #94a3b8; display: block; margin-bottom: 5px;">Uang Diterima (Rp):</label>
+                        <input type="number" id="input-uang-bayar" placeholder="Masukkan nominal uang" oninput="hitungKembalian()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 16px;">
+                    </div>
+
+                    <div class="summary-row" style="font-size: 15px; color: #4ade80;">
+                        <span>Kembalian</span>
+                        <span id="label-kembalian">Rp 0</span>
+                    </div>
+
+                    <button class="btn-bayar" onclick="bayar()">Bayar & Simpan Cloud</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal-struk" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>🧾 STRUK TRANSAKSI</h3>
+            <p><strong>Order ID:</strong> <span id="struk-id">-</span></p>
+            <p><strong>Tanggal:</strong> <span id="struk-tgl">-</span></p>
+            <p><strong>Petugas:</strong> <span id="struk-petugas">-</span></p>
+            <hr>
+            <ul id="struk-items"></ul>
+            <hr>
+            <h4>Total: <span id="struk-total">Rp 0</span></h4>
+            <button onclick="tutupStruk()" class="btn-primary" style="margin-top: 15px;">Selesai & Transaksi Baru</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

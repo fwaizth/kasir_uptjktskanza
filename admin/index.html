@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Kasir Cloud</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">📊</div>
+                <h1>Dashboard Admin</h1>
+            </div>
+            <div>
+                <button onclick="eksporExcel()" style="background: #10b981; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-right: 10px;">
+                    📥 Ekspor Excel / CSV
+                </button>
+                <a href="../index.html" class="btn-logout" style="text-decoration: none; padding: 10px 16px; background: #334155; color: white; border-radius: 8px;">
+                    ⬅ Kembali ke Kasir
+                </a>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="card-stat">
+                <p style="color:#94a3b8;">Total Pendapatan</p>
+                <h2 id="rekap-total" style="color: #38bdf8; font-size: 26px; margin-top: 8px;">Rp 0</h2>
+            </div>
+            <div class="card-stat">
+                <p style="color:#94a3b8;">Total Transaksi</p>
+                <h2 id="rekap-jumlah" style="color: #4ade80; font-size: 26px; margin-top: 8px;">0 Transaksi</h2>
+            </div>
+        </div>
+
+        <div style="background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 24px;">
+            <h3 style="margin-top: 0; color: #f8fafc; margin-bottom: 15px;">📈 Grafik Penjualan Realtime</h3>
+            <canvas id="grafikPenjualan" style="max-height: 250px;"></canvas>
+        </div>
+
+        <div style="background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0; color: #f8fafc;">📄 Riwayat Transaksi (Supabase Cloud)</h3>
+                <button onclick="hapusSemua()" style="background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer;">
+                    🗑 Reset Semua Data
+                </button>
+            </div>
+
+            <div style="background: #1e293b; padding: 16px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+    <label style="color: #94a3b8; font-weight: 500;">📅 Pilih Tanggal Transaksi:</label>
+    
+    <input type="date" id="input-kalender" onchange="filterBerdasarkanTanggal()" style="padding: 8px 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; cursor: pointer;">
+    
+    <button onclick="resetFilterTanggal()" style="background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 500;">
+        🔄 Tampilkan Semua Hari
+    </button>
+</div>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr style="border-bottom: 2px solid #334155; color: #94a3b8;">
+                            <th>ORDER ID & WAKTU</th>
+                            <th>PETUGAS KASIR</th>
+                            <th>TOTAL</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-transaksi">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px; color: #94a3b8;">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
